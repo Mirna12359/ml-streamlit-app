@@ -2,6 +2,8 @@ import streamlit as st
 import pickle
 import numpy as np
 
+from sklearn.linear_model import LinearRegression
+
 model = pickle.load(open("model.pkl", "rb"))
 
 st.title("House Price Prediction")
