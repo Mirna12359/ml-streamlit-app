@@ -1,15 +1,18 @@
 import streamlit as st
-import pickle
+import joblib
 import numpy as np
 
-from sklearn.linear_model import LinearRegression
+# load model
+model = joblib.load("model.pkl")
 
-model = pickle.load(open("model.pkl", "rb"))
+st.title("🏠 House Price Prediction App")
 
-st.title("House Price Prediction")
+size = st.number_input("House Size (m²)")
+bedrooms = st.number_input("Number of Bedrooms")
 
-size = st.number_input("Enter house size")
+if st.button("Predict Price"):
 
-if st.button("Predict"):
-    prediction = model.predict(np.array([[size]]))
-    st.success(f"Predicted price: {prediction[0]}")
+    prediction = model.predict([[size, bedrooms]])
+
+    st.success(f"Predicted Price: ${prediction[0]:,.2f}")
+    joblib.dump(model,"app.pkl")
